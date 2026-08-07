@@ -1,33 +1,101 @@
-# queuekind
+# QueueKind
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+QueueKind transforms chaotic physical queues into a calmer digital waiting experience. People can describe what they need in everyday language, receive a structured queue token, track their estimated wait, and stay coordinated with service providers.
 
-## Built with v0
+## Features
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+- Gemini-powered natural-language intake for walk-ins, appointments, and service requests.
+- Structured queue creation with service category, priority, and estimated wait time.
+- Participant view with token status, queue progress, notifications, and leave-queue controls.
+- Provider command center with active queue visibility, next-customer controls, completion actions, and pause/resume status.
+- Responsive interface designed for community services, public offices, clinics, libraries, and similar environments.
+- Deterministic fallback parsing when the AI service is unavailable.
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_syaN8qlFJ4GoQ0lGS84MSywTVDZh)
+## Tech stack
 
-## Getting Started
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Tailwind CSS
+- Vercel AI SDK
+- Gemini through the Vercel AI Gateway
+- Lucide React icons
 
-First, run the development server:
+## Getting started
+
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+Start the development server:
+
+```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available scripts
 
-## Learn More
+```bash
+pnpm dev       # Start the development server
+pnpm build     # Create a production build
+pnpm start     # Start the production server
+pnpm lint      # Run ESLint when configured
+```
 
-To learn more, take a look at the following resources:
+## AI intake API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+The intake endpoint is available at:
+
+```text
+POST /api/intake
+```
+
+Send an unstructured request in the request body:
+
+```json
+{
+  "request": "I need help renewing my library card"
+}
+```
+
+The endpoint returns structured queue data including the detected service, priority, confidence, and a human-readable summary. If Gemini is unavailable, the route uses a safe deterministic fallback so the queue experience remains usable.
+
+## Project structure
+
+```text
+app/
+  api/intake/route.ts   # Gemini-powered request parsing
+  globals.css           # Design tokens and application styles
+  layout.tsx            # Metadata and root layout
+  page.tsx              # QueueKind participant/provider interface
+```
+
+## Deployment
+
+The application is configured for Vercel deployment. Build locally before deploying:
+
+```bash
+pnpm build
+```
+
+Then deploy through the Vercel dashboard or the linked Vercel project. Configure the Vercel AI Gateway integration for production AI-powered intake; the application still provides fallback parsing when AI configuration is unavailable.
+
+## Design principles
+
+QueueKind is built around dignity, clarity, and coordination:
+
+- Make waiting status visible without making people repeatedly ask for updates.
+- Translate messy requests into structured service work without forcing users through long forms.
+- Give providers operational controls that are simple under pressure.
+- Keep the experience accessible, responsive, and understandable at a glance.
+
+## Learn more
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Vercel AI SDK Documentation](https://ai-sdk.dev/docs)
+- [Vercel Documentation](https://vercel.com/docs)
+- [QueueKind on v0](https://v0.app/chat/projects/prj_syaN8qlFJ4GoQ0lGS84MSywTVDZh)
